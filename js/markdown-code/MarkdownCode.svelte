@@ -80,7 +80,9 @@
 	): string {
 		if (tagsToEscape === true) {
 			// https://www.w3schools.com/tags/
-			const tagRegex = /<\/?([a-zA-Z][a-zA-Z0-9-]*)([\s>])/g;
+			// tag names may also contain underscores (e.g. <tool_call>), which are
+			// not valid in standard HTML tags but are accepted by browsers
+			const tagRegex = /<\/?([a-zA-Z][a-zA-Z0-9_-]*)([\s>])/g;
 			return content.replace(tagRegex, (match, tagName, endChar) => {
 				if (!standardHtmlAndSvgTags.includes(tagName.toLowerCase())) {
 					return match.replace(/</g, "&lt;").replace(/>/g, "&gt;");
